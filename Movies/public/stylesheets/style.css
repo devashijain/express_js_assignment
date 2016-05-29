@@ -1,0 +1,24 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+/*.movie-stars { display:block; width:76px; height:20px; background:url('/public/images/rating_default.png') no-repeat; }
+.movie-stars-rating { display:block; width:38px; height:20px; background:url('/public/images/rating_starred.png') no-repeat; }*/
+
+
+/*span.stars, span.stars span {
+    display: block;
+    background: url(stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}*/
