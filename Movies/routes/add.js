@@ -3,22 +3,14 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 var jsonfile = require('jsonfile');
-var file = './public/json/movie_list.json';
 var fs=require('fs');
 
-
-
-// jsonfile.readFile(file, function(err, obj) {
-//   console.log(obj)
-// })
-
 router.post('/',function(request, respond) {
-      //var content=JSON.parse(fs.readFileSync('./public/json/movie_list.json'));
-jsonfile.readFile(file ,function(err,content){
-  console.log(content);
+      var content=JSON.parse(fs.readFileSync('json/movie_list.json'));
+//    jsonfile.readFile("./public"+"/"+"page.json",function(err,content){
     var obj = {};
     obj.Title=request.body.Title;
-    obj.Poster=request.body.Poster;
+    obj.Poster="images/"+request.body.Poster;
     obj.Year=request.body.Year;
     obj.Actors=request.body.Actors;
     obj.Director=request.body.Director;
@@ -28,15 +20,13 @@ jsonfile.readFile(file ,function(err,content){
     obj.Awards=request.body.Awards;
 //console.log(obj);
 content.push(obj);
-jsonfile.writeFile(file, content,{spaces: 4}, function(err) {
+fs.writeFile('json/movie_list.json', JSON.stringify(content, null, 4), function(err) {
       if(err) {
       console.log(err);
       }
-
   });
     //respond.sendFile(path.join( __dirname + '../views/index.html'));
    respond.redirect( "/" );
-})
 });
 
 

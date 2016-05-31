@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 var bodyParser = require('body-parser');
 var jsonfile = require('jsonfile');
-var file = './public/json/movie_list.json';
+var file = 'json/movie_list.json';
 var fs=require('fs');
 
 
@@ -28,9 +28,11 @@ jsonfile.writeFile(file, newContent,{spaces: 4}, function(err) {
       if(err) {
       console.log(err);
       }
+
+        respond.redirect("/"); //initiates a get Request;goes to the middleware(app.js)and then redirects accrodingy
   });
-  // respond.sendFile(path.join( __dirname + '../views/index.html'));
-  respond.redirect("/");
+
+
 })
 });
 module.exports = router;

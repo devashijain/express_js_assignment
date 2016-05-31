@@ -24,13 +24,14 @@
 
   <body>
 
+    <div id="header">
+    <h1>Movies to Watch before I Die!</h1>
+    </div>
 
 
 <br>
 <br>
-<br>
-<br>
-<br>
+
 
 
     <div class="jumbotron well">
@@ -40,7 +41,7 @@
     			<div class="row">
     				<div class="col-md-3">
               <!-- image -->
-              <img id="myImg" alt="No Image Found" src=""/ class="img-circle">
+              <img id="myImg" alt="No Image Found" src="" class="img-circle" height="446px" width="300px" />
     				</div>
     				<div class="col-md-9">
     					<div>
@@ -120,7 +121,8 @@
                        <div class="form-group">
                          <label class="col-lg-2 control-label" for="inputName">Image</label>
                          <div class="col-lg-10">
-                           <input class="form-control" name="Poster" placeholder="ImagURL" type="text">
+                          <!-- <img id="myImg" alt="No Image Found" src="/"  type="file" class="img-circle"> -->
+                           <input class="form-control" name="Poster" placeholder="ImagURL" type="file" class="img-circle" height="444px" width="300px">
                          </div>
                        </div>
 
@@ -253,9 +255,13 @@
                            </div>
 
                            <div class="form-group">
+                             <!-- <form method='post' action='upload' enctype="multipart/form-data">
+                                <input type='file' name='fileUploaded'>
+                                <input type='submit'>
+                              </form> -->
                              <label class="col-lg-2 control-label" for="inputName">Image</label>
                              <div class="col-lg-10">
-                               <input id="myImg1" class="form-control" name="Poster" placeholder="ImagURL" type="text">
+                               <input id="myImg1" class="form-control" name="Poster" placeholder="ImagURL" type="file">
                              </div>
                            </div>
 
@@ -288,7 +294,7 @@
                            <div class="form-group">
                              <label class="col-lg-2 control-label" for="inputEmail">Released Date</label>
                              <div class="col-lg-10">
-                               <input id="Released1" class="form-control" name="Released" placeholder="Release Date" >
+                               <input id="Released1" class="form-control" name="Released" placeholder="Release Date"type="date" >
                              </div>
                            </div>
                            <div class="form-group">
@@ -323,61 +329,108 @@
     	</div>
     </div>
     </div>
+<br>
+<br>
+
+    <footer>
+
+      <ul>
+        <li>
+          <a href="https://facebook.com/" target="_blank">
+          <img title="Facebook" alt="" src="images/Facebook_logo.png"/>
+          </a>
+        </li>
+        <li>
+          <a href="https://plus.google.com/" target="_blank">
+           <img title="google+" alt="" src="images/Google-Plus_logo.png"/>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com" target="_blank">
+          <img title="Twitter" alt="" src="images/Twitter_logo.png"/>
+          </a>
+        </li>
+      </ul>
+
+    </footer>  <!-- end footer -->
+
 
 <script type="text/javascript">
-
+var count =0;
+var totalRecords;
 $.ajax({
-url:'/json/movie_list.json',
-datatype:'json',
-type:'get',
-cache:false,
-success:function(data){
- $.getJSON("json/movie_list.json", function( data ) {
-    });
+  url:'/totalRecords',
+  datatype:'json',
+  type:'get',
+  cache:false,
+  success:function(totalJsonRecords){
 
-//var data = $.parseJSON(data);
-console.log("IN Success");
- //var data = $.parseJSON(data);
-  var count = 0;
+    totalRecords=totalJsonRecords;
+console.log(totalRecords);
+
+  }
+
+});
+
+
+
 $("#next").click(function() {
-  if(count< data.length){
+  if(count< totalRecords){
     count++;
-      nextImg();
+      nextRecord(count);
     }
 });
 $("#prev").click(function() {
   if(count>0){
     count--;
-      nextImg();
+      nextRecord(count);
     }
 });
 
-
-var nextImg = function()
+if(count==0)
 {
-  console.log("The title is " +data[count].Title);
-     $("#Title").text(data[count].Title);
-    $('#myImg').attr("src", data[count].Poster);
-     $('#Year').text("Year : " + data[count].Year);
-     $('#Actors').text("Actors : " + data[count].Actors);
-     $('#Director').text("Director : "+ data[count].Director);
-     $('#Plot').text(data[count].Plot);
-     $('#Released').text(data[count].Released);
-     $('#imdbRating').text("       " + data[count].imdbRating);
-     $('#Awards').text(data[count].Awards);
+  nextRecord(count);
+}
 
-     $('#deleteTitle').val(data[count].Title);
+function nextRecord(count)
+{
+
+  $.ajax({
+  url:'/getJson',
+  data:'count='+count,
+  datatype:'json',
+  type:'get',
+  cache:false,
+
+  success:function(data){
+
+  console.log(count);
+  console.log("The title is " +data.Title);
+  console.log("The poster URL is " +data.Poster);
+     $("#Title").text(data.Title);
+
+    $('#myImg').attr("src", data.Poster);
+     $('#Year').text("Year : " + data.Year);
+     $('#Actors').text("Actors : " + data.Actors);
+     $('#Director').text("Director : "+ data.Director);
+     $('#Plot').text(data.Plot);
+     $('#Released').text(data.Released);
+     $('#imdbRating').text("       " + data.imdbRating);
+     $('#Awards').text(data.Awards);
+
+     $('#deleteTitle').val(data.Title);
 
           $("#frmCadastre").click(function(){
-           $("#Title1").val(data[count].Title);
-           $('#myImg1').val(data[count].Poster);
-           $('#Year1').val(data[count].Year);
-           $('#Actors1').val(data[count].Actors);
-           $('#Director1').val(data[count].Director);
-           $('#Plot1').val(data[count].Plot);
-           $('#Released1').val(data[count].Released);
-           $('#imdbRating1').val(data[count].imdbRating);
-           $('#Awards1').val(data[count].Awards);
+            //console.log(data[count].Title)
+           $("#Title1").val(data.Title);
+           $('#myImg1').attr(data.Poster);
+           $('#Year1').val(data.Year);
+           $('#Actors1').val(data.Actors);
+           $('#Director1').val(data.Director);
+           $('#Plot1').val(data.Plot);
+           $('#Released1').val(data.Released);
+           $('#imdbRating1').val(data.imdbRating);
+           $('#Awards1').val(data.Awards);
          });
 
 
@@ -385,14 +438,12 @@ var nextImg = function()
 
 
 
-if(count==0)
-{
-  nextImg();
-}
 
-
-}
 });
+}
+
+
+
 </script>
 <script src="javascripts/jquery.min.js"></script>
     <script src="javascripts/bootstrap.min.js"></script>

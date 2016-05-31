@@ -10,7 +10,6 @@ var users = require('./routes/users');
 var deleteMovie = require('./routes/delete');
 var addMovie = require('./routes/add');
 var updateMovie= require('./routes/update');
-
 var app = express();
 
 // view engine setup
@@ -32,6 +31,10 @@ app.use('/', routes);
 app.use('/delete', deleteMovie);
 app.use('/add', addMovie);
 app.use('/update', updateMovie);
+app.use('/getJson',routes);
+app.use('/totalRecords', routes);
+app.use('/movieList', routes);
+
 //app.use('/users', users);
 
 // catch 404 and forward to error handler
@@ -40,6 +43,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 
